@@ -1,10 +1,23 @@
 import React from "react";
 import { useAuth } from "../context/auth";
 import { Link } from "react-router-dom";
+import axios from "axios";
 
 const HomePage = () => {
   const { logout, token } = useAuth();
-  const clickHandler = () => {
+
+  const clickHandler = async () => {
+    const response = await axios.post(
+      "http://localhost:4000/logout",
+      {},
+      {
+        headers: {
+          Authorization: `${JSON.parse(localStorage.getItem("JWT"))}`,
+        },
+      }
+    );
+    console.log(response);
+    localStorage.removeItem("JWT");
     logout();
   };
   return (
